@@ -55,7 +55,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-white text-3xl font-bold">URL Shortener</h1>
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <div className="flex items-center justify-between mb-4 max-w-5xl w-full">
+        <div className="flex items-center mb-4 max-w-5xl w-full">
           <input
             type="text"
             value={urlInput}
@@ -65,17 +65,14 @@ export default function Home() {
           />
           <button
             onClick={handleSubmit}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="flex-grow bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
             Shorten URL
           </button>
         </div>
-        <Popup
-          status={urlMutateStatus}
-          data={urlMutateData}
-          reset={urlMutateReset}
-        />
       </div>
+
+      <Popup status={"success"} data={urlMutateData} reset={urlMutateReset} />
       {renderUrls(urlStatus)}
     </main>
   );

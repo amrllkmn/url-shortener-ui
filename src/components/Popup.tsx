@@ -1,6 +1,6 @@
 import useUrls from "@/hooks/useUrls";
 import { useEffect, useState } from "react";
-import { FiCopy } from "react-icons/fi";
+import { FiCopy, FiCheckCircle, FiXCircle, FiClipboard } from "react-icons/fi";
 
 interface PopupProps {
   status: string;
@@ -10,10 +10,15 @@ interface PopupProps {
 
 const Popup = ({ status, data, reset }: PopupProps) => {
   const [showPopup, setShowPopup] = useState(false);
+
   const handleCopyClick = async () => {
     await navigator.clipboard.writeText(data);
     setShowPopup(false);
     reset();
+  };
+
+  const handleCloseClick = () => {
+    setShowPopup(false);
   };
 
   useEffect(() => {
@@ -25,16 +30,36 @@ const Popup = ({ status, data, reset }: PopupProps) => {
   return (
     <>
       {showPopup && (
-        <div
-          className={`${
-            status === "success" ? "bg-green-500" : "bg-red-500"
-          } fixed bottom-0 right-0 mb-4 mr-4 text-white py-2 px-4 rounded-lg z-50`}
-        >
-          <p>Success! Your shortened url: {data}</p>
-          <div className="hover:bg-green-600">
-            <button onClick={handleCopyClick}>
-              <FiCopy size={16} />
-            </button>
+        <div className="flex">
+          <div
+            className={`${
+              status === "success" ? "bg-green-500" : "bg-red-500"
+            } mb-4 mr-0 text-white px-4 rounded-l-lg z-50 flex items-center`}
+          >
+            Success! Your shortened url: {data}
+          </div>
+          <div
+            className={`${
+              status === "success"
+                ? "bg-green-500 hover:bg-green-600"
+                : "bg-red-500 hover:bg-red-600"
+            } mb-4 mr-4 text-white py-2 px-4 rounded-r-lg z-50 flex items-center`}
+          >
+            {status === "success" && (
+              <div className="rounded-sm">
+                <button onClick={handleCopyClick}>
+                  <FiClipboard size={20} />
+                </button>
+              </div>
+            )}
+
+            {status === "error" && (
+              <div className="rounded-sm">
+                <button onClick={handleCloseClick}>
+                  <FiXCircle size={20} />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
