@@ -6,8 +6,7 @@ const useUrls = () => {
   const { data: urls, status: urlStatus } = useQuery("urls", UrlApi.getUrls);
 
   const urlMutation = useMutation(UrlApi.postUrls, {
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       queryClient.invalidateQueries("urls");
     },
   });
