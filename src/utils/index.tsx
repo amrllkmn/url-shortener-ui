@@ -17,3 +17,7 @@ export interface IOrigin {
   region: string;
   country: string;
 }
+
+export interface IPostUrl {
+  url: string;
+}

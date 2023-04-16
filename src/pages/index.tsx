@@ -7,13 +7,12 @@ import useUrls from "@/hooks/useUrls";
 const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const [urlInput, setUrlInput] = useState("");
-  const { urls, urlStatus } = useUrls();
+  const { urls, urlStatus, urlMutation } = useUrls();
 
   const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log(urlInput);
     if (/^https?:\/\//.test(urlInput)) {
-      alert("Valid URL");
+      urlMutation.mutate({ url: urlInput });
       setUrlInput("");
     } else {
       alert("Invalid URL");
@@ -48,7 +47,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-white text-3xl font-bold">URL Shortener</h1>
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <form className="flex items-center justify-between mb-4 max-w-5xl w-full">
+        <div className="flex items-center justify-between mb-4 max-w-5xl w-full">
           <input
             type="text"
             value={urlInput}
@@ -62,7 +61,7 @@ export default function Home() {
           >
             Shorten URL
           </button>
-        </form>
+        </div>
       </div>
       {renderUrls(urlStatus)}
     </main>
