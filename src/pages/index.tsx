@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import Card from "@/components/Card";
 import { useState } from "react";
-import { ChangeEvent } from "react";
+import { ChangeEvent, MouseEvent } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 const newTestData = Array.from({ length: 10 }, () => ({
@@ -44,8 +44,16 @@ const newTestData = Array.from({ length: 10 }, () => ({
 export default function Home() {
   const [urlInput, setUrlInput] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    console.log(urlInput);
+    if (/^https?:\/\//.test(urlInput)) {
+      alert("Valid URL");
+      setUrlInput("");
+    } else {
+      alert("Invalid URL");
+    }
+
     // Add logic to handle form submission here
   };
 
@@ -62,7 +70,7 @@ export default function Home() {
             type="text"
             value={urlInput}
             onChange={handleInputChange}
-            className="px-3 py-2 mr-2 w-full border-gray-400 border rounded-md focus:outline-none focus:border-blue-700"
+            className="px-3 py-2 mr-2 w-full border-gray-400 text-gray-600 border rounded-md focus:outline-none focus:border-blue-700"
             placeholder="Enter a URL"
           />
           <button
