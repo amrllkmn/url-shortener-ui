@@ -58,7 +58,6 @@ export default function Home() {
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setUrlInput(e.target.value);
   };
 
