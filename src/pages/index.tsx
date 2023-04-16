@@ -2,53 +2,17 @@ import { Inter } from "next/font/google";
 import Card from "@/components/Card";
 import { useState } from "react";
 import { ChangeEvent, MouseEvent } from "react";
+import useUrls from "@/hooks/useUrls";
 
 const inter = Inter({ subsets: ["latin"] });
-const newTestData = Array.from({ length: 10 }, () => ({
-  id: 2,
-  target_url: "https://www.wikipedia.com",
-  slug: "1431cf",
-  created_at: "2023-04-14T14:13:12.727Z",
-  updated_at: "2023-04-15T10:12:05.155Z",
-  times_clicked: 4,
-  click_timestamp: {
-    "1": "2023-04-14 22:21:19 +0800",
-    "2": "2023-04-15 18:08:15 +0800",
-    "3": "2023-04-15 18:11:04 +0800",
-    "4": "2023-04-15 18:12:05 +0800",
-  },
-  origin: [
-    {
-      city: "Kuala Lumpur",
-      region: "Kuala Lumpur",
-      country: "Malaysia",
-    },
-    {
-      city: "Kuala Lumpur",
-      region: "Kuala Lumpur",
-      country: "Malaysia",
-    },
-    {
-      city: "Kuala Lumpur",
-      region: "Kuala Lumpur",
-      country: "Malaysia",
-    },
-    {
-      city: "Kuala Lumpur",
-      region: "Kuala Lumpur",
-      country: "Malaysia",
-    },
-  ],
-  short_url: "http://localhost:3000/1431cf",
-}));
 export default function Home() {
   const [urlInput, setUrlInput] = useState("");
+  const { urls, urlStatus, urlMutation } = useUrls();
 
   const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log(urlInput);
     if (/^https?:\/\//.test(urlInput)) {
-      alert("Valid URL");
+      urlMutation.mutate({ url: urlInput });
       setUrlInput("");
     } else {
       alert("Invalid URL");
@@ -61,11 +25,29 @@ export default function Home() {
     setUrlInput(e.target.value);
   };
 
+  const renderUrls = (urlStatus: string) => {
+    switch (urlStatus) {
+      case "loading":
+        return <div>Loading...</div>;
+      case "error":
+        return <div>Something</div>;
+      default:
+        return (
+          <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left font-mono">
+            {urls &&
+              urls.map((url, index) => {
+                return <Card url={url} key={index} />;
+              })}
+          </div>
+        );
+    }
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-white text-3xl font-bold">URL Shortener</h1>
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <form className="flex items-center justify-between mb-4 max-w-5xl w-full">
+        <div className="flex items-center justify-between mb-4 max-w-5xl w-full">
           <input
             type="text"
             value={urlInput}
@@ -79,13 +61,9 @@ export default function Home() {
           >
             Shorten URL
           </button>
-        </form>
+        </div>
       </div>
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left font-mono">
-        {newTestData.map((url, index) => {
-          return <Card url={url} key={index} />;
-        })}
-      </div>
+      {renderUrls(urlStatus)}
     </main>
   );
 }
