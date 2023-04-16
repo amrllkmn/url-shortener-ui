@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import Card from "@/components/Card";
 import { useState } from "react";
-import { ChangeEvent } from "react";
+import { ChangeEvent, MouseEvent } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 const newTestData = Array.from({ length: 10 }, () => ({
@@ -44,25 +44,33 @@ const newTestData = Array.from({ length: 10 }, () => ({
 export default function Home() {
   const [urlInput, setUrlInput] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    console.log(urlInput);
+    if (/^https?:\/\//.test(urlInput)) {
+      alert("Valid URL");
+      setUrlInput("");
+    } else {
+      alert("Invalid URL");
+    }
+
     // Add logic to handle form submission here
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setUrlInput(e.target.value);
   };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <h1 className="text-white text-3xl font-bold">URL Shortener</h1>
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
         <form className="flex items-center justify-between mb-4 max-w-5xl w-full">
           <input
             type="text"
             value={urlInput}
             onChange={handleInputChange}
-            className="px-3 py-2 mr-2 w-full border-gray-400 border rounded-md focus:outline-none focus:border-blue-700"
+            className="px-3 py-2 mr-2 w-full border-gray-400 text-gray-600 border rounded-md focus:outline-none focus:border-blue-700"
             placeholder="Enter a URL"
           />
           <button
