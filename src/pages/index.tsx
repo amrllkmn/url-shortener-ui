@@ -3,16 +3,24 @@ import Card from "@/components/Card";
 import { useState } from "react";
 import { ChangeEvent, MouseEvent } from "react";
 import useUrls from "@/hooks/useUrls";
+import Popup from "@/components/Popup";
 
 const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const [urlInput, setUrlInput] = useState("");
-  const { urls, urlStatus, urlMutation } = useUrls();
+  const {
+    urls,
+    urlStatus,
+    urlMutate,
+    urlMutateData,
+    urlMutateStatus,
+    urlMutateReset,
+  } = useUrls();
 
   const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (/^https?:\/\//.test(urlInput)) {
-      urlMutation.mutate({ url: urlInput });
+      urlMutate({ url: urlInput });
       setUrlInput("");
     } else {
       alert("Invalid URL");
@@ -62,6 +70,11 @@ export default function Home() {
             Shorten URL
           </button>
         </div>
+        <Popup
+          status={urlMutateStatus}
+          data={urlMutateData}
+          reset={urlMutateReset}
+        />
       </div>
       {renderUrls(urlStatus)}
     </main>
