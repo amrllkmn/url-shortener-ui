@@ -64,6 +64,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <h1 className="text-white text-3xl font-bold">URL Shortener</h1>
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
         <form className="flex items-center justify-between mb-4 max-w-5xl w-full">
           <input
