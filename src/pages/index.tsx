@@ -2,47 +2,12 @@ import { Inter } from "next/font/google";
 import Card from "@/components/Card";
 import { useState } from "react";
 import { ChangeEvent, MouseEvent } from "react";
+import useUrls from "@/hooks/useUrls";
 
 const inter = Inter({ subsets: ["latin"] });
-const newTestData = Array.from({ length: 10 }, () => ({
-  id: 2,
-  target_url: "https://www.wikipedia.com",
-  slug: "1431cf",
-  created_at: "2023-04-14T14:13:12.727Z",
-  updated_at: "2023-04-15T10:12:05.155Z",
-  times_clicked: 4,
-  click_timestamp: {
-    "1": "2023-04-14 22:21:19 +0800",
-    "2": "2023-04-15 18:08:15 +0800",
-    "3": "2023-04-15 18:11:04 +0800",
-    "4": "2023-04-15 18:12:05 +0800",
-  },
-  origin: [
-    {
-      city: "Kuala Lumpur",
-      region: "Kuala Lumpur",
-      country: "Malaysia",
-    },
-    {
-      city: "Kuala Lumpur",
-      region: "Kuala Lumpur",
-      country: "Malaysia",
-    },
-    {
-      city: "Kuala Lumpur",
-      region: "Kuala Lumpur",
-      country: "Malaysia",
-    },
-    {
-      city: "Kuala Lumpur",
-      region: "Kuala Lumpur",
-      country: "Malaysia",
-    },
-  ],
-  short_url: "http://localhost:3000/1431cf",
-}));
 export default function Home() {
   const [urlInput, setUrlInput] = useState("");
+  const { urls, urlStatus } = useUrls();
 
   const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -59,6 +24,24 @@ export default function Home() {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUrlInput(e.target.value);
+  };
+
+  const renderUrls = (urlStatus: string) => {
+    switch (urlStatus) {
+      case "loading":
+        return <div>Loading...</div>;
+      case "error":
+        return <div>Something</div>;
+      default:
+        return (
+          <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left font-mono">
+            {urls &&
+              urls.map((url, index) => {
+                return <Card url={url} key={index} />;
+              })}
+          </div>
+        );
+    }
   };
 
   return (
@@ -81,11 +64,7 @@ export default function Home() {
           </button>
         </form>
       </div>
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left font-mono">
-        {newTestData.map((url, index) => {
-          return <Card url={url} key={index} />;
-        })}
-      </div>
+      {renderUrls(urlStatus)}
     </main>
   );
 }
