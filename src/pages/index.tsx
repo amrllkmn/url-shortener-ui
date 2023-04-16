@@ -72,7 +72,11 @@ export default function Home() {
         </div>
       </div>
 
-      <Popup status={"success"} data={urlMutateData} reset={urlMutateReset} />
+      <Popup
+        status={urlMutateStatus}
+        data={urlMutateData}
+        reset={urlMutateReset}
+      />
       {renderUrls(urlStatus)}
     </main>
   );
