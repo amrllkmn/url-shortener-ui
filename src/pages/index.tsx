@@ -20,12 +20,12 @@ export default function Home() {
 
   const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (/^https?:\/\//.test(urlInput)) {
+    if (/^https?:\/\//.test(urlInput) && slugInput.length <= 15) {
       urlMutate({ url: urlInput, slug: slugInput });
       setUrlInput("");
       setSlugInput("");
     } else {
-      alert("Invalid URL");
+      alert("Invalid URL or your slug is too long");
     }
 
     // Add logic to handle form submission here
