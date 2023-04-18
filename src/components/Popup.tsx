@@ -10,11 +10,19 @@ interface PopupProps {
 
 const Popup = ({ status, data, reset }: PopupProps) => {
   const [showPopup, setShowPopup] = useState(false);
+  const MAX_LENGTH = 140;
 
   const handleCopyClick = async () => {
     await navigator.clipboard.writeText(data.short_url);
     setShowPopup(false);
     reset();
+  };
+
+  const truncateUrl = (url: string, MAX_LENGTH: number) => {
+    if (url.length > MAX_LENGTH) {
+      return url.slice(0, MAX_LENGTH - 3) + "...";
+    }
+    return url;
   };
 
   const handleCloseClick = () => {
@@ -43,7 +51,7 @@ const Popup = ({ status, data, reset }: PopupProps) => {
             {status === "success" ? (
               <div>
                 {data.title ? <p> Title: {data.title}</p> : ""}
-                <p> Target URL: {data.target_url} </p>
+                <p> Target URL: {truncateUrl(data.target_url, MAX_LENGTH)} </p>
                 <p> Your shortened url: {data.short_url}</p>
               </div>
             ) : status === "loading" ? (
