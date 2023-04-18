@@ -10,7 +10,6 @@ const useUrls = () => {
     refetchInterval: 1000,
     onSuccess: (data) => {
       if (data) {
-        console.log(data);
         setIsStale(false);
       }
     },
