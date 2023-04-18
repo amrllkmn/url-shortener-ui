@@ -4,7 +4,7 @@ import { FiCopy, FiCheckCircle, FiXCircle, FiClipboard } from "react-icons/fi";
 
 interface PopupProps {
   status: string;
-  data: string;
+  data: any;
   reset: () => void;
 }
 
@@ -12,7 +12,7 @@ const Popup = ({ status, data, reset }: PopupProps) => {
   const [showPopup, setShowPopup] = useState(false);
 
   const handleCopyClick = async () => {
-    await navigator.clipboard.writeText(data);
+    await navigator.clipboard.writeText(data.short_url);
     setShowPopup(false);
     reset();
   };
@@ -38,13 +38,19 @@ const Popup = ({ status, data, reset }: PopupProps) => {
                 : status === "loading"
                 ? "bg-blue-500"
                 : "bg-red-500"
-            } mb-4 mr-0 text-white px-4 rounded-l-lg z-50 flex items-center`}
+            } mb-4 mr-0 text-white px-4 py-4 rounded-l-lg z-50 flex items-center`}
           >
-            {status === "success"
-              ? `Success! Your shortened url: ${data}`
-              : status === "loading"
-              ? "Fetching your URL..."
-              : "Something went wrong"}
+            {status === "success" ? (
+              <div>
+                {data.title ? <p> Title: {data.title}</p> : ""}
+                <p> Target URL: {data.target_url} </p>
+                <p> Your shortened url: {data.short_url}</p>
+              </div>
+            ) : status === "loading" ? (
+              "Fetching your URL..."
+            ) : (
+              "Something went wrong"
+            )}
           </div>
           <div
             className={`${
