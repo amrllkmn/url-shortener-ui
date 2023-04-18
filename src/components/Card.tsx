@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IUrl } from "@/utils";
+import { IUrl, truncateUrl, MAX_LENGTH } from "@/utils";
 import Report from "./Report";
 import Link from "next/link";
 
@@ -11,6 +11,7 @@ const Card = ({ url }: CardProps) => {
   const handleClick = () => {
     setClicked(!clicked);
   };
+
   const click_timestamp = Object.values(url.click_timestamp);
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white mr-2 mb-2">
@@ -26,7 +27,9 @@ const Card = ({ url }: CardProps) => {
           </Link>
         </div>
         <p className="text-gray-800 text-base">{url.title}</p>
-        <p className="text-gray-500 text-base break-all">{url.target_url}</p>
+        <p className="text-gray-500 text-base break-all">
+          {truncateUrl(url.target_url, MAX_LENGTH)}
+        </p>
       </div>
       <div className="px-6 py-4">
         <button

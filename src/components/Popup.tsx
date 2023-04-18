@@ -1,6 +1,7 @@
 import useUrls from "@/hooks/useUrls";
 import { useEffect, useState } from "react";
 import { FiCopy, FiCheckCircle, FiXCircle, FiClipboard } from "react-icons/fi";
+import { truncateUrl, MAX_LENGTH } from "@/utils";
 
 interface PopupProps {
   status: string;
@@ -43,7 +44,7 @@ const Popup = ({ status, data, reset }: PopupProps) => {
             {status === "success" ? (
               <div>
                 {data.title ? <p> Title: {data.title}</p> : ""}
-                <p> Target URL: {data.target_url} </p>
+                <p> Target URL: {truncateUrl(data.target_url, MAX_LENGTH)} </p>
                 <p> Your shortened url: {data.short_url}</p>
               </div>
             ) : status === "loading" ? (
