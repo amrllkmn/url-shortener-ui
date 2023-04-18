@@ -22,7 +22,7 @@ const Popup = ({ status, data, reset }: PopupProps) => {
   };
 
   useEffect(() => {
-    if (status === "success") {
+    if (status === "success" || status === "loading") {
       setShowPopup(true);
     }
   }, [status]);
@@ -33,15 +33,25 @@ const Popup = ({ status, data, reset }: PopupProps) => {
         <div className="flex">
           <div
             className={`${
-              status === "success" ? "bg-green-500" : "bg-red-500"
+              status === "success"
+                ? "bg-green-500"
+                : status === "loading"
+                ? "bg-blue-500"
+                : "bg-red-500"
             } mb-4 mr-0 text-white px-4 rounded-l-lg z-50 flex items-center`}
           >
-            Success! Your shortened url: {data}
+            {status === "success"
+              ? `Success! Your shortened url: ${data}`
+              : status === "loading"
+              ? "Fetching your URL..."
+              : "Something went wrong"}
           </div>
           <div
             className={`${
               status === "success"
                 ? "bg-green-500 hover:bg-green-600"
+                : status === "loading"
+                ? "bg-blue-500 hover:bg-blue-600"
                 : "bg-red-500 hover:bg-red-600"
             } mb-4 mr-4 text-white py-2 px-4 rounded-r-lg z-50 flex items-center`}
           >
@@ -54,6 +64,14 @@ const Popup = ({ status, data, reset }: PopupProps) => {
             )}
 
             {status === "error" && (
+              <div className="rounded-sm">
+                <button onClick={handleCloseClick}>
+                  <FiXCircle size={20} />
+                </button>
+              </div>
+            )}
+
+            {status === "loading" && (
               <div className="rounded-sm">
                 <button onClick={handleCloseClick}>
                   <FiXCircle size={20} />
