@@ -8,6 +8,7 @@ import Popup from "@/components/Popup";
 const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const [urlInput, setUrlInput] = useState("");
+  const [slugInput, setSlugInput] = useState("");
   const {
     urls,
     urlStatus,
@@ -20,8 +21,9 @@ export default function Home() {
   const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (/^https?:\/\//.test(urlInput)) {
-      urlMutate({ url: urlInput });
+      urlMutate({ url: urlInput, slug: slugInput });
       setUrlInput("");
+      setSlugInput("");
     } else {
       alert("Invalid URL");
     }
@@ -31,6 +33,10 @@ export default function Home() {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUrlInput(e.target.value);
+  };
+
+  const handleSlugChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSlugInput(e.target.value);
   };
 
   const renderUrls = (urlStatus: string) => {
@@ -62,6 +68,13 @@ export default function Home() {
             onChange={handleInputChange}
             className="px-3 py-2 mr-2 w-full border-gray-400 text-gray-600 border rounded-md focus:outline-none focus:border-blue-700"
             placeholder="Enter a URL"
+          />
+          <input
+            type="text"
+            value={slugInput}
+            onChange={handleSlugChange}
+            className="px-3 py-2 mr-2 w-1/3 border-gray-400 text-gray-600 border rounded-md focus:outline-none focus:border-blue-700"
+            placeholder="Optional slug"
           />
           <button
             onClick={handleSubmit}
