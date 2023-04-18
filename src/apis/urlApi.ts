@@ -17,8 +17,8 @@ class UrlApi {
       body: JSON.stringify(data),
     });
 
-    const { short_url } = await response.json();
-    return short_url;
+    const resp = await response.json();
+    return resp;
   }
 }
 
