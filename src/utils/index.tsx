@@ -20,4 +20,5 @@ export interface IOrigin {
 
 export interface IPostUrl {
   url: string;
+  slug?: string;
 }
