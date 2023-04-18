@@ -16,11 +16,17 @@ const Card = ({ url }: CardProps) => {
     <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white mr-2 mb-2">
       <div className="px-6 py-4">
         <div className="font-bold text-xl text-gray-800 mb-2 hover:text-blue-700">
-          <Link href={url.short_url} target="_blank" rel="noopener noreferrer" className="break-all">
+          <Link
+            href={url.short_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="break-all"
+          >
             {url.short_url}
           </Link>
         </div>
-        <p className="text-gray-700 text-base break-all">{url.target_url}</p>
+        <p className="text-gray-800 text-base">{url.title}</p>
+        <p className="text-gray-500 text-base break-all">{url.target_url}</p>
       </div>
       <div className="px-6 py-4">
         <button

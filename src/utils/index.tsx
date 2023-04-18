@@ -1,6 +1,7 @@
 export interface IUrl {
   id: number;
   target_url: string;
+  title: string;
   slug: string;
   created_at: string;
   updated_at: string;
