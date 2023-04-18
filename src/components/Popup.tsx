@@ -1,6 +1,7 @@
 import useUrls from "@/hooks/useUrls";
 import { useEffect, useState } from "react";
 import { FiCopy, FiCheckCircle, FiXCircle, FiClipboard } from "react-icons/fi";
+import { truncateUrl, MAX_LENGTH } from "@/utils";
 
 interface PopupProps {
   status: string;
@@ -10,19 +11,11 @@ interface PopupProps {
 
 const Popup = ({ status, data, reset }: PopupProps) => {
   const [showPopup, setShowPopup] = useState(false);
-  const MAX_LENGTH = 140;
 
   const handleCopyClick = async () => {
     await navigator.clipboard.writeText(data.short_url);
     setShowPopup(false);
     reset();
-  };
-
-  const truncateUrl = (url: string, MAX_LENGTH: number) => {
-    if (url.length > MAX_LENGTH) {
-      return url.slice(0, MAX_LENGTH - 3) + "...";
-    }
-    return url;
   };
 
   const handleCloseClick = () => {

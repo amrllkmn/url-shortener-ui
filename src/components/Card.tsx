@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IUrl } from "@/utils";
+import { IUrl, truncateUrl, MAX_LENGTH } from "@/utils";
 import Report from "./Report";
 import Link from "next/link";
 
@@ -10,15 +10,6 @@ const Card = ({ url }: CardProps) => {
   const [clicked, setClicked] = useState(false);
   const handleClick = () => {
     setClicked(!clicked);
-  };
-
-  const MAX_LENGTH = 140;
-
-  const truncateUrl = (url: string, MAX_LENGTH: number) => {
-    if (url.length > MAX_LENGTH) {
-      return url.slice(0, MAX_LENGTH - 3) + "...";
-    }
-    return url;
   };
 
   const click_timestamp = Object.values(url.click_timestamp);
