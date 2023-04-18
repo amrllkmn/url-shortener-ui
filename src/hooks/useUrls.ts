@@ -23,6 +23,7 @@ const useUrls = () => {
     reset: urlMutateReset,
   } = useMutation(UrlApi.postUrls, {
     onSuccess: () => {
+      setIsStale(true);
       queryClient.invalidateQueries("urls");
     },
   });
